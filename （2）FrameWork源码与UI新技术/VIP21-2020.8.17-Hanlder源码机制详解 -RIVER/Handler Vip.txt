@@ -1,0 +1,64 @@
+1: Looper 死循环为什么不会导致应用卡死
+2: MessageQueue优先级队列 是如何进行排序的
+优先级排序，就是依靠msg对象中提供的when参数，根据时间来进行排序；
+
+3: Message(单链表结构)
+单链表结构：非线性，非顺序的物理结构，由n个节点组成；
+链表是采用“见缝插针”的存储方式，不要求内存连续，靠next指针关联；
+存储的时候是随机存储；访问的时候是顺序访问；
+
+
+4：如何创建Message对象；
+Message对象可以通过new关键字，也可以通过obtain方法进行创建；
+为什么选用obtain方法呢？
+android app中会有大量需要通过handler发送消息，会发送大量的message对象；
+为了避免频繁的创建和销毁message对象所造成的性能消耗，所以使用“缓存池”。
+
+
+5: 一个线程又几个Handler?怎么保证的？
+多个，同步锁；
+
+6: 为什么handler容易内存泄漏？
+
+7: 为什么主线程可以new handler，子线程中new handler怎么做?
+因为主线程系统帮我们调用了looper，子线程中，可以通过自己调用Looper.prepare进行处理；
+
+8: 子线程维护的Looper，消息队列无消息的时候处理方案是什么？有什么用?
+应该调用Looper的quit方法，因为可以将looper中的messageQueue里的msg都移除掉，并且将内存释放；
+
+
+9: MessageQueue怎么保证内部线程安全
+因为同步关键字；
+
+
+10：Handler源码的三条主线
+a：handler的请求发送到哪里去了？
+handler请求全部都发送到MessageQueue中，并且被保存在单链表（Message）中；
+
+b：handler的请求怎么处理的？
+在ActivityThread中，通过Looper.loop()方法不停从MessageQueue中获取Message对象，并调用Message对象中的target(指得就是handler)的dispatchMessage方法；
+
+c：Handler，Looper，MessageQueue，Message关系是怎么样的，什么时候创建的？
+Handler：MainActivity；
+Looper：ActivityThread的main方法中（Looper.pareMainLooper），在创建Looper的同时，也会创建MessageQueue对象；
+
+
+上次面试被问到，假如message消息发送过快的，会怎么样？
+message会被堆加到MessageQueue中；
+
+messageQueue有没容量限制的？
+没有大小限制；（内存不够）
+
+
+11：ThreadLocal
+ThreadLocal为解决多线程程序的并发问题设计出来的；
+
+为什么Looper死循环不会导致应用卡死？
+epoll机制：
+
+IO多路复用的一个实现；IO多路复用：在一个操作里同时监听多个输入输出源；
+
+
+
+
+

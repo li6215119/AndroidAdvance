@@ -1,0 +1,7 @@
+手写事件分发机制
+1   U型链产生条件，每层的的View和ViewGroup都不消费，每层的都会调用onTouch方法，也就是U型链
+     L型链产生条件    假如某层消费了，会调用各个层次的ViewGroup对应的dispatchTouchEvent  和消费的onTouchEvent ，我们称之为L型链
+2  Down事件 会遍历容器中的子View，判断哪个View需要接受事件
+    Move事件  不会发生遍历子View，走的是 TouchTarget 链表机制
+
+3 TouchTarget 链表机制 特别是在频繁的move事件产生的情况下，性能特别优异，无需遍历View，直接找到需要消费的事件

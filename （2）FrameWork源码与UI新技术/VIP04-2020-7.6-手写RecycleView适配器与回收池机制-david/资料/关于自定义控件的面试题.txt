@@ -1,0 +1,19 @@
+阿里面试RecyclerView经历
+
+看你简历上对自定义控件比较了解，特别对RecyclerView 也自己看过对应的源码，RecyclerView的复用机制是怎样的
+
+
+
+关于RecyclerView高频面试点   
+
+RecyclerView支持多个不同类型布局，他们怎么缓存，并且查找的呢
+
+RecyclerView能不能直接调用setTag()  ，不传递键的方式，如setTag("字符串")
+
+为什么RecyclerView需要用到适配器呢，你对适配器的理解是什么
+
+RecyclerView一屏加载的个数是怎么确定的，他是怎么做到不显示的Item缓存到内存中
+
+有看过RecyclerView的边界判断的源码吗? 简短聊下他的判断机制，什么时候该回收
+
+ 

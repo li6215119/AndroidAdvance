@@ -1,0 +1,18 @@
+周一  Binder机制详解(应用层)， Proxy与Stub机制分析
+        1  应用层Binder源码分析
+        2 Android为什么开辟独一无二的Binder通信
+        3 详解AIDL生成的Java类的过程
+
+ 
+
+周四 Binder面试系列，带你读懂binder进程通信机制
+        1.阿里三面Binder进程通信 Binder从应用层到原理层讲解
+        2 进程通信本质，内存拷贝详解
+        3 一次拷贝的实现方式
+        4 mmap函数实现内存与磁盘的映射关系
+
+
+周六   实战项目之JetPack之MVVM项目(1)
+	1.从零搭建MVVM架构
+	2.Jetpack独有的服务器数处理
+	3.Room数据库对数据的实战管理

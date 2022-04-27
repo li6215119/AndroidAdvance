@@ -1,0 +1,200 @@
+周一    PMS服务启动原理详解，从开机到APP启动PMS服务处理机制与流程
+           1 Apk安装是怎么进行的，PMS如何分析APK压缩文件
+           2 开机时PMS做了什么，data/app目录下的扫描与分析
+           3 PakageParse类源码解读
+           4 AndroidManifest 为什么要按照google设计的写，PMS告诉你真相
+           5 AMS与PMS交互过程解析
+           6 项目应用(手写可下载的广播组件)
+
+周四  AMS服务执行流程详解 
+       1Activity的管理与生命周期执行机制
+       2ActivityThread源码分析
+       3 Apk的启动流程与Activity启动机制
+       4 项目应用(Hook Ams中的startActivity方法实现集中式登录)
+       5 AMS与PMS 面试技巧总结
+
+周六 Binder面试系列，带你读懂binder进程通信机制
+        1 进程通信本质，内存拷贝详解
+        2 一次拷贝的实现方式
+        3 mmap函数实现内存与磁盘的映射关系
+		
+		
+		
+				
+PMS    app   
+PMS  AMS 核心 View    
+
+PMS  AMS
+PackageManagerService    ActivityManagerService
+
+
+PMS    磁盘    目录  层次分明 不更好
+
+
+磁盘 
+PMS   快速定位到       某个类  activity的入口    四大组件
+
+
+PMS   时期：   开机时  
+
+Android   5s   手机启动
+
+PMS    这个手机启动过耗费70% pms
+
+
+缓存    ——---》 信息魂村到我的数据库
+
+
+1  99号技师 
+1   表    家庭住址     PMS    
+
+
+
+
+2  以后方便行事     AMS   ----快速定位到
+
+
+提前缓存  
+抽象  ---- 源码    解密
+
+
+6.0   7.0  8.0的版本
+
+
+时间比较成   并发  4个 
+private PackageParser.Package scanPackageLI(File scanFile, int parseFlags, int scanFlags,
+            long currentTime, UserHandle user) throws PackageManagerException {
+        if (DEBUG_INSTALL) Slog.d(TAG, "Parsing: " + scanFile);
+        parseFlags |= mDefParseFlags;
+        PackageParser pp = new PackageParser();
+        pp.setSeparateProcesses(mSeparateProcesses);
+        pp.setOnlyCoreApps(mOnlyCore);
+        pp.setDisplayMetrics(mMetrics);
+
+
+
+
+
+
+
+10.0 的版本
+public void submit(File scanFile, int parseFlags) {
+        mService.submit(() -> {
+            ParseResult pr = new ParseResult();
+            Trace.traceBegin(TRACE_TAG_PACKAGE_MANAGER, "parallel parsePackage [" + scanFile + "]");
+            try {
+                PackageParser pp = new PackageParser();
+                pp.setSeparateProcesses(mSeparateProcesses);
+                pp.setOnlyCoreApps(mOnlyCore);
+                pp.setDisplayMetrics(mMetrics);
+                pp.setCacheDir(mCacheDir);
+                pp.setCallback(mPackageParserCallback);
+                pr.scanFile = scanFile;
+                pr.pkg = parsePackage(pp, scanFile, parseFlags);
+				}
+
+每个做了  10 20%
+Google  优化项  定向解决 
+1   后面 很多这样优化项
+2   缓存机制
+
+
+
+课间问题:
+
+1    刚刚的缓存版本差异跟Android虚拟机换成Art有关系吗
+
+art   7  8  10 
+
+ams  pms  activitythread   每个版本都会改
+ 
+
+2  base.apk 为什么搞这个？存在的意义是什么？  
+
+
+3 这个scanPackage的流程, 是不是安装应用也得对这个应用走一遍
+  安装应用也得走一遍 
+  adb   install   scanPackage
+  
+  以时间换空间
+  
+  
+  
+  
+  
+  activty      ams   启动  应用   找到某个应用 activity 打基础
+  
+  空间换时间
+  1000个Activity      内存  app
+  
+  
+  100个app     10w  activtiy   内存
+  
+  热启动  启动       1      
+  
+  冷启动             2  
+  
+  
+  以时间换空间  
+  Android  IOS   配置
+  大同小异       命名 限制
+  
+  
+  
+  pms 解析手机里所有 apk 的 manifest.xml 文件
+  对的 
+  
+  
+  设计原则  
+  
+  
+  
+  
+  ams 解析对应的某一个 apk  的相关的四大组件的信息，是这个意思吗
+  ams     pms  交互  快速找到 Activity （javabean）    再来反射 启动Activity对象        
+  
+  pms在手机启动时候去对应的app包或者system 包下遍历所有包集合，然后再读取配置清单，构建出对应的临时对象，
+  
+  
+  放在一边  
+  在ams使用读取这些临时对象后快速构建？
+  
+  
+  
+  dex  加载的过程 需要被翻译成机器码指令 ，  提前就翻译了    odex机制      以空间换时间     1M   2.6M 磁盘容量       
+
+不是 
+
+懒得程序员  开发牛逼 
+
+
+架构  懒 重复 代码
+
+manifest
+		application
+					activity
+							<intent-filter>
+					receiver
+
+源码    讲快
+
+
+总结:
+     1 
+今日总结
+PMS服务启动原理详解，从开机到APP启动PMS服务处理机制与流程
+1 PMS全称PackageManagerService， 由SystemServer启动，PMS运行在单独的系统进程中
+启动的时候通过ServiceManager.addService存入PMS对象，应用层通过ServiceManager.getService获取对象
+由于PMS是单独进程，获取的对象是一个IBinder接口。
+
+2  PMS的作用时期主要是集中在手机开机时期，会扫描主要/data/app 和/systema/app两个目录
+扫描比较耗费时间，Android10.0 9.0 通过线程，缓存机制进行优化，9.0以下没有的
+扫描所有的apk文件 只是读取每一个AndroidManifest.xml文件信息，通过dom解析，判断tagname，解析成对应四大组件
+然后统一缓存在一个Package对象中
+
+
+
+
+
+
+

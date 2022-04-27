@@ -1,0 +1,14 @@
+先创建Application
+--》通过调用AMS的代理类，将要创建Application的一些信息从AMS里面封装好，然后通过回调    ApplicationThread的方法将封装好的信息回调给ActivityThread，ActivityThread根据这些信
+    将Application通过mInstrumentation用类加载机制然后反射实例化。
+--》然后通过mInstrumentation调用Application的onCreate()方法
+
+
+然后创建Activity
+--》同上，通过AMS代理类，封装要创建的Activity的信息，然后回调给ActivityThread，通过       mInstrumentation创建Activity并且调用它的onCreate()方法
+
+
+setContext()里面解析xml布局
+--》先加载基础布局，然后加载自己定义的布局
+
+ActivityThread里面的handleResumeActivity来调用Activity的根布局的测量布局绘制  因为根布局是一个ViewGroup，会把测量布局绘制传递给子View，最终都会执行对应的方法
