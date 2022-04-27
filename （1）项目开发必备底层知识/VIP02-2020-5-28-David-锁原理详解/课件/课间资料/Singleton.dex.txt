@@ -1,0 +1,110 @@
+Singleton.getInstance:()LSingleton;:
+regs: 0002; ins: 0000; outs: 0001
+  0000: code-address
+  0000: local-snapshot
+  0000: code-address
+  0000: code-address
+  0000: local-snapshot
+  0000: code-address
+  0000: sget-object v0, Singleton.singleton:LSingleton; // field@0000
+  0002: code-address
+  0002: code-address
+  0002: local-snapshot
+  0002: code-address
+  0002: code-address
+  0002: local-snapshot
+  0002: if-nez v0, 0013 // +0011
+  0004: code-address
+  0004: code-address
+  0004: local-snapshot
+  0004: code-address
+  0004: sget-object v1, Singleton.singleton:LSingleton; // field@0000
+  0006: code-address
+  0006: code-address
+  0006: local-snapshot
+  0006: code-address
+  0006: code-address
+  0006: local-snapshot
+  0006: code-address
+  0006: monitor-enter v1
+  0007: code-address
+  0007: code-address
+  0007: local-snapshot
+  0007: code-address
+  0007: sget-object v0, Singleton.singleton:LSingleton; // field@0000
+  0009: code-address
+  0009: code-address
+  0009: local-snapshot
+  0009: code-address
+  0009: code-address
+  0009: local-snapshot
+  0009: if-nez v0, 0012 // +0009
+  000b: code-address
+  000b: code-address
+  000b: local-snapshot
+  000b: code-address
+  000b: new-instance v0, Singleton // type@0000
+  000d: code-address
+  000d: code-address
+  000d: local-snapshot
+  000d: code-address
+  000d: code-address
+  000d: local-snapshot
+  000d: code-address
+  000d: invoke-direct {v0}, Singleton.<init>:()V // method@0000
+  0010: code-address
+  0010: code-address
+  0010: local-snapshot
+  0010: code-address
+  0010: sput-object v0, Singleton.singleton:LSingleton; // field@0000
+  0012: code-address
+  0012: code-address
+  0012: local-snapshot
+  0012: code-address
+  0012: monitor-exit v1
+  0013: code-address
+  0013: code-address
+  0013: local-snapshot
+  0013: code-address
+  0013: sget-object v0, Singleton.singleton:LSingleton; // field@0000
+  0015: code-address
+  0015: code-address
+  0015: local-snapshot
+  0015: code-address
+  0015: code-address
+  0015: local-snapshot
+  0015: return-object v0
+  0016: code-address
+  0016: code-address
+  0016: local-snapshot
+  0016: move-exception v0
+  0017: code-address
+  0017: code-address
+  0017: local-snapshot
+  0017: code-address
+  0017: monitor-exit v1
+  0018: code-address
+  0018: code-address
+  0018: local-snapshot
+  0018: code-address
+  0018: throw v0
+  0019: code-address
+  catches
+    tries:
+      try 0007..0013
+      catch <any> -> 0016
+      try 0017..0018
+      catch <any> -> 0016
+  debug info
+    line_start: 9
+    parameters_size: 0000
+    0000: prologue end
+    0000: line 9
+    0004: line 10
+    0007: line 11
+    000b: line 12
+    0012: line 14
+    0013: line 16
+    0016: line 14
+    end sequence
+  source file: "Singleton.java"

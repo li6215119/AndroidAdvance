@@ -1,0 +1,13 @@
+Singleton.getInstance:()LSingleton;:
+regs: 0002; ins: 0000; outs: 0001
+  0000: sget-object v0, Singleton.singleton:LSingleton; // field@0000
+  0002: if-nez v0, 0013 // +0011
+  0006: monitor-enter v1
+  0007: sget-object v0, Singleton.singleton:LSingleton; // field@0000
+  0009: if-nez v0, 0012 // +0009
+  000b: new-instance v0, Singleton // type@0000
+  000d: invoke-direct {v0}, Singleton.<init>:()V // method@0000
+  0010: sput-object v0, Singleton.singleton:LSingleton; // field@0000
+  0012: monitor-exit v1
+  0013: sget-object v0, Singleton.singleton:LSingleton; // field@0000
+  0015: return-object v0

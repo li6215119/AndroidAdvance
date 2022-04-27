@@ -1,0 +1,42 @@
+ThreadPoolExecutor
+里面的核心线程和最大线程怎么理解
+
+
+还有Executors里面自带的4种线程池一般都是哪种场景
+Executors.newCachedThreadPool();
+优点:  创建一个线程池 如果线程执行速度比较短，添加的速度有比较长    复用之前的线程
+缺点: 他不能够控制线程的上限
+
+
+final static xxx = new xxx()这之所以能线程安全是因为有个cinitThreadID吗
+
+
+
+Person person=new Person(); 这个对象的引用不是在栈中吗， 怎么说是在方法区中的int
+Person person 线程栈
+
+然后这个int 指向一个类表
+
+
+person这个引用  有static修饰与没有时，它放在堆栈的位置有没有什么区别
+
+
+虚拟机为主    内存理解清楚
+
+
+虚拟机      看清
+
+
+热修复  sophix
+
+
+
+
+
+
+
+
+
+
+
+
